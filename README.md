@@ -1,37 +1,26 @@
-<!-- Add a readme file for OOP java project named Attendence Management System -->
-# Attendance Management System
+School Attendance System
+This is a 10-part code-along project to build a console-based school attendance system in Java.
 
-A Java-based OOP project for managing student attendance efficiently.
+## Session 1: Introduction and Orientation
+- Verified Java and Git setup.
+- Initialized Git repository for the project.
+- Created basic project structure with Main.java.
+- Compiled and ran the initial "Welcome" program.
+- Pushed initial setup to a part-01 branch on GitHub and created a PR.
 
-## Features
+## Session 2: Core Domain Modelling
+- Defined `Student` class with `studentId`, `name`, `setDetails()`, and `displayDetails()` method.
+- Defined `Course` class with `courseId`, `courseName`, `setDetails()`, and `displayDetails()` method.
+- Utilized arrays of objects in `Main.java` to manage and display multiple students and courses.
+- Introduced basic usage of `this` keyword.
 
-- Add, update, and delete student records
-- Mark attendance for each student
-- View attendance reports
-- Search and filter attendance by date or student
+### How to Run
+1. Navigate to the project root directory.
+2. Compile: `javac src/com/school/Student.java src/com/school/Course.java src/com/school/Main.java` (or `javac src/com/school/*.java`)
+3. Run: `java -cp src com.school.Main`
 
-## Technologies Used
 
-- Java (OOP principles)
-- Swing (GUI)
-- File I/O for data persistence
-
-## Getting Started
-
-1. Clone the repository.
-2. Compile the Java source files.
-3. Run the main application class.
-
-## Usage
-
-- Launch the application.
-- Add students and mark their attendance.
-- Generate attendance reports as needed.
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first.
-
-## License
-
-This project is licensed under the MIT License.
+### How to Run
+1. Navigate to the project root directory (AttendanceSystem).
+2. Compile: javac src/com/school/Main.java
+3. Run: java -cp src com.school.Main
