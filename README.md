@@ -14,6 +14,20 @@ This is a 10-part code-along project to build a console-based school attendance 
 - Utilized arrays of objects in `Main.java` to manage and display multiple students and courses.
 - Introduced basic usage of `this` keyword.
 
+---
+
+## Session 3: Constructor-Based Object Creation & Auto-ID Generation
+- Removed `setDetails()` and `setCourseDetails()` methods from `Student` and `Course` classes.
+- Added constructors to initialize values during object creation:
+  - `Student(String name)` assigns a unique ID using a static counter starting at 1.
+  - `Course(String courseName)` assigns a unique ID using a static counter starting at 101.
+- Course IDs are displayed with a `"C"` prefix (e.g., `C101`, `C102`).
+- Updated `Main.java` to create objects using constructors instead of setters.
+- Created additional instances of `Student` and `Course` to demonstrate auto-ID generation.
+- Successfully compiled and ran updated code.
+- Pushed changes to a `part-03` branch and created a pull request.
+
+
 ### How to Run
 1. Navigate to the project root directory.
 2. Compile: `javac src/com/school/Student.java src/com/school/Course.java src/com/school/Main.java` (or `javac src/com/school/*.java`)
