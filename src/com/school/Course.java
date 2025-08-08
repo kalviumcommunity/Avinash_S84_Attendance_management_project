@@ -3,18 +3,21 @@ package  com.school;
 class Course{
     private static int nextCourseIdCounter = 101;
     
-    int courseId;
-    String courseName;
+    private int courseId;
+    private String courseName;
 
     public Course(String courseName){
         this.courseId = nextCourseIdCounter++;
         this.courseName = courseName;
     }
 
-    // void setCourseDetails(int id, String nameOfCourse){
-    //     this.courseId = id;
-    //     this.courseName = nameOfCourse;
-    // }
+    public int getCourseId() {
+        return courseId;
+    }
+    public  String getCourseName() {
+        return courseName;
+    }
+
     void displayCourseDetails(){
         System.out.println("Course ID: C" + this.courseId + ", Name: " + this.courseName);
     }
