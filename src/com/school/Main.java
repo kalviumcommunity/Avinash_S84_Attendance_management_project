@@ -12,8 +12,12 @@ public class Main {
 
         Student[] students = new Student[2];
         Course[] courses = new Course[2];
-        students[0] = new Student("Aviansh Guleria");
-        students[1] = new Student("Sksham Kaushal");
+        Teacher t1 = new Teacher("Rishi", "Java and Javascript");
+        Staff s1 = new Staff("Keshav", "Coffee distributer");
+
+
+        students[0] = new Student("Aviansh Guleria", "10th Grade");
+        students[1] = new Student("Sksham Kaushal", "12th Grade");
         courses[0] = new Course("Data Structure and Algorithms");
         courses[1] = new Course("Full Stack Web Development");
 
@@ -27,10 +31,15 @@ public class Main {
         attendancelog.add(new AttendanceRecord(students[1].getStudentId(), courses[1].getCourseId(), "Absent"));
         attendancelog.add(new AttendanceRecord(students[0].getStudentId(), courses[1].getCourseId(), "Avinash"));
 
+        
         System.err.println("Attendance Log");
-
+        
         for(AttendanceRecord record : attendancelog){
             record.displayRecord();
         }
+
+        t1.displayDetails();
+        s1.displayDetails();
+    
     }
 }
