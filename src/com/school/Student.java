@@ -1,6 +1,6 @@
 package com.school;
 
-class Student extends Person{
+class Student extends Person implements Storable{
     private static int nextStudentIdCounter = 1;
 
     private int studentId;
@@ -9,6 +9,7 @@ class Student extends Person{
 
     public Student(String name, String gradeLevel) {
         super(name);
+        this.name = name;
         this.studentId = nextStudentIdCounter++;
         this.gradeLevel = gradeLevel;
     }
@@ -24,6 +25,11 @@ class Student extends Person{
     public void displayDetails() {
         super.displayDetails();
         System.out.println("Student ID: " + this.studentId + ", Name: " + this.name);
+    }
+
+    @Override
+    public String toDataString() {
+        return studentId + "," + name + "," + gradeLevel;
     }
 
 }
