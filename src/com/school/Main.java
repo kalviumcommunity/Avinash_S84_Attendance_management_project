@@ -3,46 +3,60 @@ package com.school;
 import java.util.*;
 
 public class Main {
+
+    public static void displaySchoolDirectory(List<Person> people) {
+        System.out.println("\n--- School Directory ---");
+        for (Person person : people) {
+            person.displayDetails(); // runtime polymorphism
+        }
+    }
+
     public static void main(String[] args) {
         String ownerName = "Aviansh";
         System.out.println("Welcome to the School Attendance System Project! Owner: " + ownerName);
-        System.out.println("Session 1: Project Setup and Orientation Complete.");
 
         ArrayList<AttendanceRecord> attendancelog = new ArrayList<>();
         ArrayList<Student> studentsList = new ArrayList<>();
         ArrayList<Course> coursesList = new ArrayList<>();
 
+        // Create Students (no IDs)
         Student sA = new Student("Aviansh Guleria", "10th Grade");
         Student sB = new Student("Sksham Kaushal", "12th Grade");
         studentsList.add(sA);
         studentsList.add(sB);
 
+        // Create Courses (no IDs)
         Course c1 = new Course("Data Structure and Algorithms");
         Course c2 = new Course("Full Stack Web Development");
         coursesList.add(c1);
         coursesList.add(c2);
 
-        
+        // Teacher & Staff
         Teacher t1 = new Teacher("Rishi", "Java and Javascript");
-        Staff s1 = new Staff("Keshav", "Coffee distributer");
+        Staff staff1 = new Staff("Keshav", "Coffee distributor");
 
-        attendancelog.add(new AttendanceRecord(studentsList.get(0).getStudentId(), coursesList.get(0).getCourseId(), "Present"));
-        attendancelog.add(new AttendanceRecord(studentsList.get(1).getStudentId(), coursesList.get(1).getCourseId(), "Absent"));
-        attendancelog.add(new AttendanceRecord(studentsList.get(0).getStudentId(), coursesList.get(1).getCourseId(), "Avinash"));
-        
-        System.err.println("Attendance Log");
-        
-        for(AttendanceRecord record : attendancelog){
+        // Attendance Records
+        attendancelog.add(new AttendanceRecord(sA, c1, "Present"));
+        attendancelog.add(new AttendanceRecord(sB, c2, "Absent"));
+        attendancelog.add(new AttendanceRecord(sA, c2, "Avinash")); // invalid status warning
+
+        System.out.println("\n--- Attendance Log ---");
+        for (AttendanceRecord record : attendancelog) {
             record.displayRecord();
         }
 
-        t1.displayDetails();
-        s1.displayDetails();
+        // Polymorphic school directory
+        List<Person> schoolPeople = new ArrayList<>();
+        schoolPeople.add(sA);
+        schoolPeople.add(sB);
+        schoolPeople.add(t1);
+        schoolPeople.add(staff1);
+        displaySchoolDirectory(schoolPeople);
 
-         FileStorageService storageService = new FileStorageService();
+        // Save data
+        FileStorageService storageService = new FileStorageService();
         storageService.saveData(studentsList, "students.txt");
         storageService.saveData(coursesList, "courses.txt");
         storageService.saveData(attendancelog, "attendance_log.txt");
-    
     }
 }
