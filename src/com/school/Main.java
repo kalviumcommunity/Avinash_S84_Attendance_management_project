@@ -15,10 +15,8 @@ public class Main {
         String ownerName = "Aviansh";
         System.out.println("Welcome to the School Attendance System Project! Owner: " + ownerName);
 
-        ArrayList<AttendanceRecord> attendancelog = new ArrayList<>();
-        ArrayList<Student> studentsList = new ArrayList<>();
-        ArrayList<Course> coursesList = new ArrayList<>();
-
+        List<Student> studentsList = new ArrayList<>();
+        List<Course> coursesList = new ArrayList<>();
         // Create Students (no IDs)
         Student sA = new Student("Aviansh Guleria", "10th Grade");
         Student sB = new Student("Sksham Kaushal", "12th Grade");
@@ -35,15 +33,19 @@ public class Main {
         Teacher t1 = new Teacher("Rishi", "Java and Javascript");
         Staff staff1 = new Staff("Keshav", "Coffee distributor");
 
-        // Attendance Records
-        attendancelog.add(new AttendanceRecord(sA, c1, "Present"));
-        attendancelog.add(new AttendanceRecord(sB, c2, "Absent"));
-        attendancelog.add(new AttendanceRecord(sA, c2, "Avinash")); // invalid status warning
+        FileStorageService storageService = new FileStorageService();
+        AttendanceService attendanceService = new AttendanceService(storageService);
 
-        System.out.println("\n--- Attendance Log ---");
-        for (AttendanceRecord record : attendancelog) {
-            record.displayRecord();
-        }
+        // Attendance Records
+        attendanceService.markAttendance(sA, c1, "Present"); // using objects
+        attendanceService.markAttendance(sB, c2, "Absent"); // using objects
+        attendanceService.markAttendance(1, 102, "Present", studentsList, coursesList);// invalid status warning
+
+        attendanceService.displayAttendanceLog();
+        attendanceService.displayAttendanceLog(sA);
+        attendanceService.displayAttendanceLog(c2);
+
+        attendanceService.saveAttendanceData();
 
         // Polymorphic school directory
         List<Person> schoolPeople = new ArrayList<>();
@@ -53,10 +55,9 @@ public class Main {
         schoolPeople.add(staff1);
         displaySchoolDirectory(schoolPeople);
 
-        // Save data
-        FileStorageService storageService = new FileStorageService();
         storageService.saveData(studentsList, "students.txt");
         storageService.saveData(coursesList, "courses.txt");
-        storageService.saveData(attendancelog, "attendance_log.txt");
+
+        System.out.println("\n Program finished successfully. Check attendance_log.txt for saved records.");
     }
 }
