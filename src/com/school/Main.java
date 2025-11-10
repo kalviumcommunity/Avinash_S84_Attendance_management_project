@@ -1,63 +1,61 @@
 package com.school;
 
-import java.util.*;
+import java.util.List;
 
 public class Main {
 
-    public static void displaySchoolDirectory(List<Person> people) {
+    // displaySchoolDirectory is now better placed in RegistrationService or a ReportService
+    // For now, let's make it use RegistrationService data
+    public static void displaySchoolDirectory(RegistrationService regService) {
         System.out.println("\n--- School Directory ---");
+        List<Person> people = regService.getAllPeople();
+        if (people.isEmpty()) {
+            System.out.println("No people registered.");
+            return;
+        }
         for (Person person : people) {
-            person.displayDetails(); // runtime polymorphism
+            person.displayDetails();
         }
     }
 
     public static void main(String[] args) {
-        String ownerName = "Aviansh";
-        System.out.println("Welcome to the School Attendance System Project! Owner: " + ownerName);
+        System.out.println("--- School System (SRP Demo) ---");
 
-        List<Student> studentsList = new ArrayList<>();
-        List<Course> coursesList = new ArrayList<>();
-        // Create Students (no IDs)
-        Student sA = new Student("Aviansh Guleria", "10th Grade");
-        Student sB = new Student("Sksham Kaushal", "12th Grade");
-        studentsList.add(sA);
-        studentsList.add(sB);
-
-        // Create Courses (no IDs)
-        Course c1 = new Course("Data Structure and Algorithms");
-        Course c2 = new Course("Full Stack Web Development");
-        coursesList.add(c1);
-        coursesList.add(c2);
-
-        // Teacher & Staff
-        Teacher t1 = new Teacher("Rishi", "Java and Javascript");
-        Staff staff1 = new Staff("Keshav", "Coffee distributor");
-
+        // --- Setup Services ---
         FileStorageService storageService = new FileStorageService();
-        AttendanceService attendanceService = new AttendanceService(storageService);
+        RegistrationService registrationService = new RegistrationService(storageService);
+        // AttendanceService now depends on RegistrationService
+        AttendanceService attendanceService = new AttendanceService(storageService, registrationService);
 
-        // Attendance Records
-        attendanceService.markAttendance(sA, c1, "Present"); // using objects
-        attendanceService.markAttendance(sB, c2, "Absent"); // using objects
-        attendanceService.markAttendance(1, 102, "Present", studentsList, coursesList);// invalid status warning
+        // --- Registering Entities via RegistrationService ---
+        System.out.println("\n--- Registering People and Courses ---");
+        Student student1 = registrationService.registerStudent("Alice Wonderland", "Grade 10");
+        Student student2 = registrationService.registerStudent("Bob The Builder", "Grade 9");
+        registrationService.registerTeacher("Dr. Emily Carter", "Physics");
+        registrationService.registerStaff("Mr. John Davis", "Librarian");
 
-        attendanceService.displayAttendanceLog();
-        attendanceService.displayAttendanceLog(sA);
-        attendanceService.displayAttendanceLog(c2);
+        Course course1 = registrationService.createCourse("Intro to Programming");
+        Course course2 = registrationService.createCourse("Data Structures");
 
+        // Display directory using data from RegistrationService
+        displaySchoolDirectory(registrationService);
+
+        System.out.println("\n\n--- Marking Attendance ---");
+        // Mark attendance using Student and Course objects
+        attendanceService.markAttendance(student1, course1, "Present");
+        // Mark attendance using studentId and courseId (lookup via RegistrationService)
+        attendanceService.markAttendance(student2.getId(), course1.getCourseId(), "Absent");
+        attendanceService.markAttendance(student1.getId(), course2.getCourseId(), "Tardy"); // Invalid
+
+        System.out.println("\n\n--- Querying Attendance ---");
+        attendanceService.displayAttendanceLog(student1); // Log for Alice
+        attendanceService.displayAttendanceLog();         // Full log
+
+        // --- Saving Data via Services ---
+        System.out.println("\n\n--- Saving All Data ---");
+        registrationService.saveAllRegistrations();
         attendanceService.saveAttendanceData();
 
-        // Polymorphic school directory
-        List<Person> schoolPeople = new ArrayList<>();
-        schoolPeople.add(sA);
-        schoolPeople.add(sB);
-        schoolPeople.add(t1);
-        schoolPeople.add(staff1);
-        displaySchoolDirectory(schoolPeople);
-
-        storageService.saveData(studentsList, "students.txt");
-        storageService.saveData(coursesList, "courses.txt");
-
-        System.out.println("\n Program finished successfully. Check attendance_log.txt for saved records.");
+        System.out.println("\nSession 9: SRP with Registration & Attendance Services Complete.");
     }
 }
